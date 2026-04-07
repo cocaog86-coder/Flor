@@ -1,46 +1,42 @@
+js
 // flor.js
 document.addEventListener('DOMContentLoaded', () => {
   const html = document.documentElement;
-  
-  // Función para reiniciar todas las animaciones
+
+  let isTouch = false;
+
+  // Función optimizada para reiniciar animaciones (compatible con Safari)
   const restartAnimations = () => {
     console.log('Reiniciando animaciones...');
-    
-    // 1. Eliminar la clase blooming si existe
+
+    // 1. Quitar la clase
     html.classList.remove('blooming');
-    
-    // 2. Forzar un reflow accediendo a propiedades de estilo
-    html.getBoundingClientRect(); // Esto fuerza al navegador a recalcular estilos
-    
-    // 3. Crear un elemento de respaldo para asegurar que las animaciones se reinicien
-    // Eliminar y volver a agregar los estilos de los pseudo-elementos
-    const style = document.createElement('style');
-    style.textContent = `
-      /* Forzar reinicio de animaciones */
-      .scene::before, .scene::after, html::before,
-      body::before, body::after, html::after {
-        animation: none !important;
-        
-      }
-    `;
-    document.head.appendChild(style);
-    
-    // 4. Pequeño retraso para asegurar que los cambios se apliquen
-    setTimeout(() => {
-      // Eliminar el estilo temporal
-      style.remove();
-      // Volver a agregar la clase blooming
+
+    // 2. Forzar reflow real (mejor que getBoundingClientRect en Safari)
+    void html.offsetWidth;
+
+    // 3. Volver a activar animación en el siguiente frame
+    requestAnimationFrame(() => {
       html.classList.add('blooming');
       console.log('Animación reiniciada');
-    }, 100);
+    });
   };
-  
-  // Agregar evento de clic
-  window.addEventListener('click', restartAnimations);
-  window.addEventListener('touchstart', restartAnimations);
-  // Mostrar la flor al cargar (con un pequeño retraso)
+
+  // Eventos corregidos (evita doble ejecución en iPhone)
+  window.addEventListener('touchstart', () => {
+    isTouch = true;
+    restartAnimations();
+  });
+
+  window.addEventListener('click', () => {
+    if (!isTouch) restartAnimations();
+    isTouch = false;
+  });
+
+  // Mostrar la flor al cargar
   setTimeout(() => {
     html.classList.add('blooming');
     console.log('Flor cargada inicialmente');
   }, 100);
 });
+
