@@ -21,19 +21,13 @@ html {
   --petals-large-radius: 204em;
   --petals-mid-radius: 136em;
   --petals-small-radius: 82em;
-  
+  filter: var(--scene-drop-shadow);
 }
 
 :root {
-  --zoom: 120;
-
-  /* FIX móvil */
-  --unit: min(1vw, 1vh);
-  --px: calc(var(--zoom) * (var(--unit) / 665));
-
-  /* colores */
-  --color-leaf: hsl(175, 30%, 31%);
-  --color-leaf-root: hsl(113, 21%, 51%);
+  --unit: 1vmin;
+  --available-screen-min: 665;
+  --px: calc(var(--zoom) * (var(--unit) / var(--available-screen-min)));
 }
 
 html,
