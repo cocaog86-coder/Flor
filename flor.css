@@ -113,7 +113,7 @@ html::before {
 body::before,
 body::after,
 html::after {
-  transform: translate(-50%, -50%) rotate(var(--petals-start-from)) scale(0);
+  transform: translate(-50%, -50%) rotate(var(--petals-start-from)) scale(0.001);
   left: calc(50% + var(--petals-offset));
   top: calc(50% - var(--petals-offset));
 
@@ -145,6 +145,11 @@ body::before {
 
   transform: translate(-50%, -50%) rotate(var(--petals-start-from)) scale(0.001) translateZ(0);
   will-change: transform;
+
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
 body::after {
