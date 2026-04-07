@@ -194,20 +194,34 @@ html {
 
 body::before,
 body::after,
-html::after {
+html::after,
+.scene::before,
+.scene::after,
+html::before {
+  animation: none;
+  -webkit-animation: none;
+}
+
+html.blooming body::before,
+html.blooming body::after,
+html.blooming::after {
   animation: bloom var(--petal-timing-func) calc(var(--petal-duration) * var(--ams)) forwards;
+  -webkit-animation: bloom var(--petal-timing-func) calc(var(--petal-duration) * var(--ams)) forwards;
 }
 
-body::before {
+html.blooming body::before {
   animation-delay: calc((var(--animation-delay) + var(--petal-1-delay)) * var(--ams));
+  -webkit-animation-delay: calc((var(--animation-delay) + var(--petal-1-delay)) * var(--ams));
 }
 
-body::after {
+html.blooming body::after {
   animation-delay: calc((var(--animation-delay) + var(--petal-2-delay)) * var(--ams));
+  -webkit-animation-delay: calc((var(--animation-delay) + var(--petal-2-delay)) * var(--ams));
 }
 
-html::after {
+html.blooming::after {
   animation-delay: calc((var(--animation-delay) + var(--petal-3-delay)) * var(--ams));
+  -webkit-animation-delay: calc((var(--animation-delay) + var(--petal-3-delay)) * var(--ams));
 }
 
 @keyframes bloom {
@@ -215,28 +229,47 @@ html::after {
     transform: translate(-50%, -50%) rotate(0deg) scale(1);
   }
 }
-.scene::before,
-.scene::after,
-html::before {
+
+@-webkit-keyframes bloom {
+  to {
+    transform: translate(-50%, -50%) rotate(0deg) scale(1);
+  }
+}
+
+html.blooming .scene::before,
+html.blooming .scene::after,
+html.blooming::before {
   animation: var(--leaf-timing-func) calc(var(--leaf-duration) * var(--ams)) forwards;
+  -webkit-animation: var(--leaf-timing-func) calc(var(--leaf-duration) * var(--ams)) forwards;
 }
 
-.scene::before {
+html.blooming .scene::before {
   animation-name: leaf1;
+  -webkit-animation-name: leaf1;
   animation-delay: calc((var(--animation-delay) + var(--leaf-1-delay)) * var(--ams));
+  -webkit-animation-delay: calc((var(--animation-delay) + var(--leaf-1-delay)) * var(--ams));
 }
 
-.scene::after {
+html.blooming .scene::after {
   animation-name: leaf2;
+  -webkit-animation-name: leaf2;
   animation-delay: calc((var(--animation-delay) + var(--leaf-2-delay)) * var(--ams));
+  -webkit-animation-delay: calc((var(--animation-delay) + var(--leaf-2-delay)) * var(--ams));
 }
 
-html::before {
+html.blooming::before {
   animation-name: leaf3;
+  -webkit-animation-name: leaf3;
   animation-delay: calc((var(--animation-delay) + var(--leaf-3-delay)) * var(--ams));
+  -webkit-animation-delay: calc((var(--animation-delay) + var(--leaf-3-delay)) * var(--ams));
 }
 
 @keyframes leaf1 {
+  to {
+    transform: translate(-50%, -50%) scale(1) rotate(0deg) rotate(80deg) skewX(6deg) skewY(-30deg);
+  }
+}
+@-webkit-keyframes leaf1 {
   to {
     transform: translate(-50%, -50%) scale(1) rotate(0deg) rotate(80deg) skewX(6deg) skewY(-30deg);
   }
@@ -246,7 +279,17 @@ html::before {
     transform: translate(-50%, -50%) scale(1) rotate(0deg) rotate(-44deg) skewY(-30deg);
   }
 }
+@-webkit-keyframes leaf2 {
+  to {
+    transform: translate(-50%, -50%) scale(1) rotate(0deg) rotate(-44deg) skewY(-30deg);
+  }
+}
 @keyframes leaf3 {
+  to {
+    transform: translate(-50%, -50%) scale(1) rotate(0deg) skewX(-15deg) skewY(-18deg);
+  }
+}
+@-webkit-keyframes leaf3 {
   to {
     transform: translate(-50%, -50%) scale(1) rotate(0deg) skewX(-15deg) skewY(-18deg);
   }
