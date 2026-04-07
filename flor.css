@@ -25,9 +25,15 @@ html {
 }
 
 :root {
-  --unit: 1vmin;
-  --available-screen-min: 665;
-  --px: calc(var(--zoom) * (var(--unit) / var(--available-screen-min)));
+  --zoom: 120;
+
+  /* FIX móvil */
+  --unit: min(1vw, 1vh);
+  --px: calc(var(--zoom) * (var(--unit) / 665));
+
+  /* colores */
+  --color-leaf: hsl(175, 30%, 31%);
+  --color-leaf-root: hsl(113, 21%, 51%);
 }
 
 html,
