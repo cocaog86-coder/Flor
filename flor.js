@@ -17,9 +17,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const style = document.createElement('style');
     style.textContent = `
       /* Forzar reinicio de animaciones */
-      head::before, head::after, html::before,
+      .scene::before, .scene::after, html::before,
       body::before, body::after, html::after {
         animation: none !important;
+        
       }
     `;
     document.head.appendChild(style);
