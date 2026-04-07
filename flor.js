@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
     html.classList.remove('blooming');
     
     // 2. Forzar un reflow accediendo a propiedades de estilo
-    void html.offsetHeight; // Esto fuerza al navegador a recalcular estilos
+    html.getBoundingClientRect(); // Esto fuerza al navegador a recalcular estilos
     
     // 3. Crear un elemento de respaldo para asegurar que las animaciones se reinicien
     // Eliminar y volver a agregar los estilos de los pseudo-elementos
@@ -31,12 +31,12 @@ document.addEventListener('DOMContentLoaded', () => {
       // Volver a agregar la clase blooming
       html.classList.add('blooming');
       console.log('Animación reiniciada');
-    }, 50);
+    }, 100);
   };
   
   // Agregar evento de clic
   window.addEventListener('click', restartAnimations);
-  
+  window.addEventListener('touchstart', restartAnimations);
   // Mostrar la flor al cargar (con un pequeño retraso)
   setTimeout(() => {
     html.classList.add('blooming');

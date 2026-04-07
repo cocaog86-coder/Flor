@@ -32,7 +32,7 @@ html {
 
 html,
 body,
-head {
+.scene {
   height: 100%;
   position: relative;
   padding: 0;
@@ -41,16 +41,17 @@ head {
   background-color: transparent;
 }
 
-head {
+.scene {
   width: 100%;
+  height: 100%;
   position: absolute;
   left: 0;
   top: 0;
   display: block;
 }
 
-head::before,
-head::after,
+.scene::before,
+.scene::after,
 body::before,
 body::after,
 html::before,
@@ -61,8 +62,8 @@ html::after {
   filter: blur(0);
 }
 
-head::before,
-head::after,
+.scene::before,
+.scene::after,
 html::before {
   transform-origin: right top;
   background-size: 100% 100%;
@@ -70,7 +71,7 @@ html::before {
   box-shadow: inset 0 0 12em 10em var(--color-leaf);
 }
 
-head::before {
+.scene::before {
   left: calc(50% - 65em);
   top: calc(50% + 109em);
   transform: translate(-50%, -50%) scale(0) rotate(var(--leafs-start-from)) rotate(80deg) skewX(6deg) skewY(-30deg);
@@ -81,7 +82,7 @@ head::before {
   background-position: -56em 30em, -34em 3em, -14em -22em, -16em 96em, 6em 68em, 27em 43em, 0 15em;
 }
 
-head::after {
+.scene::after {
   left: calc(50% - 94em);
   top: calc(50% + 98em);
   transform: translate(-50%, -50%) scale(0) rotate(var(--leafs-start-from)) rotate(-44deg) skewY(-30deg);
@@ -198,18 +199,18 @@ html::after {
     transform: translate(-50%, -50%) rotate(0deg) scale(1);
   }
 }
-head::before,
-head::after,
+.scene::before,
+.scene::after,
 html::before {
   animation: var(--leaf-timing-func) calc(var(--leaf-duration) * var(--ams)) forwards;
 }
 
-head::before {
+.scene::before {
   animation-name: leaf1;
   animation-delay: calc((var(--animation-delay) + var(--leaf-1-delay)) * var(--ams));
 }
 
-head::after {
+.scene::after {
   animation-name: leaf2;
   animation-delay: calc((var(--animation-delay) + var(--leaf-2-delay)) * var(--ams));
 }
