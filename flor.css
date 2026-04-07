@@ -21,7 +21,7 @@ html {
   --petals-large-radius: 204em;
   --petals-mid-radius: 136em;
   --petals-small-radius: 82em;
-  filter: var(--scene-drop-shadow);
+  
 }
 
 :root {
