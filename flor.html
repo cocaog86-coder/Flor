@@ -1,13 +1,159 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Flor para ti</title>
     <link rel="stylesheet" href="flor.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet" />
+    <style>
+      /* ── Overlay del contador ───────────────────────────── */
+      #overlay {
+        position: fixed;
+        inset: 0;
+        z-index: 100;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem 1.5rem;
+        pointer-events: none;
+      }
+
+      .message {
+        font-family: 'Cormorant Garamond', Georgia, serif;
+        font-size: clamp(18px, 3.5vmin, 26px);
+        font-weight: 300;
+        font-style: italic;
+        line-height: 1.85;
+        text-align: center;
+        color: rgba(255, 255, 255, 0.92);
+        text-shadow: 0 1px 18px rgba(0, 0, 0, 0.55);
+        max-width: 520px;
+        margin-bottom: 2.2rem;
+        letter-spacing: 0.01em;
+      }
+
+      .message em {
+        font-style: normal;
+        font-weight: 400;
+        color: hsl(48, 95%, 72%);
+      }
+
+      .counter-row {
+        display: flex;
+        gap: clamp(6px, 2vmin, 14px);
+        align-items: flex-end;
+      }
+
+      .unit {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 5px;
+      }
+
+      .digit {
+        font-family: 'Cormorant Garamond', Georgia, serif;
+        font-size: clamp(36px, 7vmin, 56px);
+        font-weight: 300;
+        line-height: 1;
+        color: rgba(255, 255, 255, 0.95);
+        text-shadow: 0 1px 14px rgba(0, 0, 0, 0.5);
+        min-width: 2.2ch;
+        text-align: center;
+        border-bottom: 0.5px solid rgba(255, 255, 255, 0.35);
+        padding-bottom: 5px;
+      }
+
+      .unit-label {
+        font-size: clamp(9px, 1.5vmin, 11px);
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, 0.55);
+        font-family: Georgia, serif;
+      }
+
+      .sep {
+        font-family: 'Cormorant Garamond', Georgia, serif;
+        font-size: clamp(28px, 5vmin, 42px);
+        font-weight: 300;
+        color: rgba(255, 255, 255, 0.35);
+        padding-bottom: 14px;
+        line-height: 1;
+      }
+
+      .note {
+        font-family: 'Cormorant Garamond', Georgia, serif;
+        font-size: clamp(12px, 2vmin, 14px);
+        font-style: italic;
+        color: rgba(255, 255, 255, 0.38);
+        margin-top: 1.2rem;
+        letter-spacing: 0.04em;
+        text-align: center;
+      }
+
+      /* Estado expirado */
+      #overlay.expired .message {
+        color: rgba(255, 255, 255, 0.65);
+      }
+    </style>
   </head>
   <body>
+    <!-- Flor animada -->
     <div class="scene"></div>
+
+    <!-- Texto + contador superpuesto -->
+    <div id="overlay">
+      <p class="message" id="msg">
+        esta <em>página</em> desaparecerá —<br>
+        si hay algo de que hablar,<br>
+        escríbeme <em>antes</em> que acabe el contador.<br>
+        si no… <em>se entenderá.</em>
+      </p>
+
+      <div id="counter-wrap">
+        <div class="counter-row">
+          <div class="unit"><span class="digit" id="d-dias">--</span><span class="unit-label">días</span></div>
+          <span class="sep">·</span>
+          <div class="unit"><span class="digit" id="d-horas">--</span><span class="unit-label">horas</span></div>
+          <span class="sep">·</span>
+          <div class="unit"><span class="digit" id="d-min">--</span><span class="unit-label">min</span></div>
+          <span class="sep">·</span>
+          <div class="unit"><span class="digit" id="d-seg">--</span><span class="unit-label">seg</span></div>
+        </div>
+        <p class="note">6 de julio · el pétalo cae</p>
+      </div>
+    </div>
+
     <script src="flor.js"></script>
-</body>
+    <script>
+      // ── Contador regresivo ───────────────────────────────
+      const target = new Date('2026-07-06T00:00:00');
+
+      function pad(n) { return String(Math.floor(n)).padStart(2, '0'); }
+
+      function tick() {
+        const diff = target - new Date();
+
+        if (diff <= 0) {
+          document.getElementById('counter-wrap').style.display = 'none';
+          document.getElementById('msg').innerHTML =
+            'el último pétalo cayó.<br><em>se entendió.</em>';
+          document.getElementById('overlay').classList.add('expired');
+          return;
+        }
+
+        document.getElementById('d-dias').textContent  = pad(diff / 86400000);
+        document.getElementById('d-horas').textContent = pad((diff % 86400000) / 3600000);
+        document.getElementById('d-min').textContent   = pad((diff % 3600000) / 60000);
+        document.getElementById('d-seg').textContent   = pad((diff % 60000) / 1000);
+      }
+
+      tick();
+      setInterval(tick, 1000);
+    </script>
+  </body>
 </html>
