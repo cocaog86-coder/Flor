@@ -239,8 +239,12 @@ html.blooming::after {
 html.blooming .scene::before,
 html.blooming .scene::after,
 html.blooming::before {
-  animation: var(--leaf-timing-func) calc(var(--leaf-duration) * var(--ams)) forwards;
-  -webkit-animation: var(--leaf-timing-func) calc(var(--leaf-duration) * var(--ams)) forwards;
+  animation-duration: calc(var(--leaf-duration) * var(--ams));
+  animation-timing-function: var(--leaf-timing-func);
+  animation-fill-mode: forwards;
+  -webkit-animation-duration: calc(var(--leaf-duration) * var(--ams));
+  -webkit-animation-timing-function: var(--leaf-timing-func);
+  -webkit-animation-fill-mode: forwards;
 }
 
 html.blooming .scene::before {

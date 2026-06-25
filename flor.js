@@ -1,51 +1,36 @@
 // flor.js
 document.addEventListener('DOMContentLoaded', () => {
   const html = document.documentElement;
+  const scene = document.querySelector('.scene');
   let isRestarting = false;
-  
+
   // Función para reiniciar todas las animaciones
   const restartAnimations = () => {
     if (isRestarting) return;
     isRestarting = true;
-    console.log('Reiniciando animaciones...');
-    
-    // 1. Eliminar la clase blooming si existe
+
+    // 1. Quitar la clase para detener animaciones
     html.classList.remove('blooming');
-    
-    // 2. Forzar un reflow accediendo a propiedades de estilo
-    html.getBoundingClientRect(); // Esto fuerza al navegador a recalcular estilos
-    
-    // 3. Crear un elemento de respaldo para asegurar que las animaciones se reinicien
-    const style = document.createElement('style');
-    style.textContent = `
-      /* Forzar reinicio de animaciones */
-      .scene::before, .scene::after, html::before,
-      body::before, body::after, html::after {
-        animation: none !important;
-        -webkit-animation: none !important;
-      }
-    `;
-    document.head.appendChild(style);
-    
-    // 4. Pequeño retraso para asegurar que los cambios se apliquen
-    setTimeout(() => {
-      // Eliminar el estilo temporal
-      style.remove();
-      // Volver a agregar la clase blooming
-      html.classList.add('blooming');
-      isRestarting = false;
-      console.log('Animación reiniciada');
-    }, 100);
+
+    // 2. Forzar reflow accediendo a una propiedad de layout del elemento animado
+    //    Usar .scene en lugar de html es más confiable en Safari
+    void scene.offsetWidth;
+
+    // 3. Volver a agregar la clase en el siguiente frame de pintura
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        html.classList.add('blooming');
+        isRestarting = false;
+      });
+    });
   };
-  
-  // Agregar eventos de interacción compatibles con iPhone Safari
-  ['click', 'touchstart', 'pointerdown'].forEach((eventName) => {
-    window.addEventListener(eventName, restartAnimations, { passive: true });
-  });
-  
-  // Mostrar la flor al cargar (con un pequeño retraso)
-  setTimeout(() => {
+
+  // Registrar solo 'pointerdown' que cubre mouse, touch y stylus de forma unificada.
+  // En Safari iOS también funciona correctamente con { passive: true }.
+  window.addEventListener('pointerdown', restartAnimations, { passive: true });
+
+  // Mostrar la flor al cargar
+  requestAnimationFrame(() => {
     html.classList.add('blooming');
-    console.log('Flor cargada inicialmente');
-  }, 100);
+  });
 });
